@@ -28,6 +28,7 @@ type InputFormProps = {
   onSuccessDisplay?: any;
   defaultValues?: Record<string, any>;
   descriptions?: Record<string, any>;
+  placeholders?: Record<string, any>;
 };
 
 function getDefaultValuesFromSchema(
@@ -150,12 +151,14 @@ type NestedFieldProps = {
   schema: z.ZodType<any, any>;
   defaultValue?: Record<string, any>;
   description?: string;
+  placeholder?: string;
 };
+
 function isZodOptional(type: z.ZodType<any, any>): boolean {
   return type.isOptional();
 }
 
-function NestedField({ control, name, schema, defaultValue, description }: NestedFieldProps) {
+function NestedField({ control, name, schema, defaultValue, description, placeholder }: NestedFieldProps) {
   const typeName = getZodTypeName(schema);
   const optionalText = isZodOptional(schema) ? ' (optional)' : '';
   {
@@ -174,6 +177,7 @@ function NestedField({ control, name, schema, defaultValue, description }: Neste
             name={`${name}.${key}`}
             schema={schema.shape[key]}
             defaultValue={defaultValue && defaultValue[key]} // Pass the default value for nested fields
+            placeholder={placeholder}
           />
         ))}
       </div>
@@ -215,6 +219,7 @@ export default function WriteAccordionInputForm({
   defaultValues = {},
   onSuccessDisplay = <></>,
   descriptions = {},
+  placeholders = {},
 }: InputFormProps) {
   const { chain } = useNetwork();
   const { isConnected } = useAccount();
@@ -310,6 +315,7 @@ export default function WriteAccordionInputForm({
                         name={key}
                         schema={formSchema.shape[key]}
                         description={descriptions[key]}
+                        placeholder={placeholders[key]}
                       />
                     ))}
                     <DialogTrigger
