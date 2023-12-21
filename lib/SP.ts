@@ -1,10 +1,11 @@
 import { StoryClient, StoryConfig } from '@story-protocol/core-sdk';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Hex, http } from 'viem';
-import { sepolia } from 'wagmi';
+import { mainnet, sepolia } from 'wagmi';
 
 const config: StoryConfig = {
-  chain: sepolia,
+  // chain: process.env.NODE_ENV === 'production' ? mainnet : sepolia,
+  chain: mainnet,
   transport: http(process.env.RPC_PROVIDER_URL),
   account: privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as Hex),
 };

@@ -6,7 +6,7 @@ import { useAccount, useNetwork, useSignMessage } from 'wagmi';
 import ClientOnly from '../../utils/ClientOnly';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { sepolia } from 'wagmi/chains';
+import { mainnet, sepolia } from 'wagmi/chains';
 import { getSignMessageRequest, verifySignature } from '@/lib/server/platform';
 
 export default function ConnectWalletButton() {
@@ -33,7 +33,7 @@ export default function ConnectWalletButton() {
           setButtonText(connectedText);
         }
       } else {
-        setButtonText('Switch to sepolia');
+        setButtonText('Wrong network');
       }
     }
   }, [connectedText, isConnected, isCorrectNetwork]);
@@ -62,7 +62,9 @@ export default function ConnectWalletButton() {
   };
 
   useEffect(() => {
-    if (chain?.id === sepolia.id) {
+    const currentChain = process.env.NEXT_PUBLIC_ENV === 'production' ? mainnet : sepolia;
+    console.log({ chain, currentChain });
+    if (chain?.id === currentChain.id) {
       setIsCorrectNetwork(true);
     } else {
       setIsCorrectNetwork(false);

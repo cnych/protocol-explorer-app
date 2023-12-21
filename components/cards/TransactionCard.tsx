@@ -43,6 +43,11 @@ export default function TransactionCard({ classname, data }: { classname?: strin
     }
   }, [additionalData, data.actionType, data.ipOrgId, data.resourceId, data.resourceType, fetchData]);
 
+  const txLink =
+    process.env.NEXT_PUBLIC_ENV === 'production'
+      ? `https://etherscan.io/tx/${data.txHash}`
+      : `https://sepolia.etherscan.io/tx/${data.txHash}`;
+
   return (
     <>
       <div className={cn('relative rounded-xl px-2 md:px-0 bg-[#FFFFFF] !p-5 dark:bg-[#2C2B35]', classname)}>
@@ -64,7 +69,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
                 <a
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                   target="_blank"
-                  href={`https://sepolia.etherscan.io/tx/${data.txHash}`}
+                  href={txLink}
                 >
                   <span>{data.txHash}</span>
                   <svg

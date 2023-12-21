@@ -56,6 +56,11 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
   const getRes: GetIpAssetResponse = await storyClient.ipAsset.get(getReq);
   const ipAsset: IPAsset = getRes.ipAsset;
 
+  const txLink =
+    process.env.NEXT_PUBLIC_ENV === 'production'
+      ? `https://etherscan.io/tx/${ipAsset.txHash}`
+      : `https://sepolia.etherscan.io/tx/${ipAsset.txHash}`;
+
   return (
     <div className="grid grid-cols-12 gap-2">
       <AssetDisplayComponent data={ipAsset} />
@@ -77,7 +82,7 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
             <Row label="TxHash">
               <span className="truncate">
                 <a
-                  href={`https://sepolia.etherscan.io/tx/${ipAsset.txHash}`}
+                  href={txLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
