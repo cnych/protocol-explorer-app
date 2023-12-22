@@ -19,6 +19,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'arweave.net',
         port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+        port: '',
       }
     ]
   }

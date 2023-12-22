@@ -3,11 +3,42 @@ import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
 import { IPAsset } from '@story-protocol/core-sdk';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { getRoundedTime } from '@/utils';
+import { getRoundedTime, parseIPFSGatewayURL } from '@/utils';
 
 export default function AssetDisplayComponent({ data }: { data: IPAsset }) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  if (data.mediaUrl) {
+
+  if (data.mediaUrl.startsWith('ipfs://')) {
+    // parse remainder string after 'ipfs://' and fetch from ipfs gateway
+    const ipfsUrl = parseIPFSGatewayURL(data.mediaUrl);
+    fetch(ipfsUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const contentType = response.headers.get('content-type');
+        if (contentType?.startsWith('image/')) {
+          return true;
+        }
+
+        return response.json(); // Parse the JSON response
+      })
+      .then((d) => {
+        if (d === true) {
+          setImageUrl(ipfsUrl);
+        } else {
+          // Step 2: Access property values from the JavaScript object
+          const imageURI = d.image; // Replace 'propertyName' with the actual property name in your JSON data
+          if (imageURI.startsWith('ipfs://')) {
+            const ipfsImageUrl = parseIPFSGatewayURL(imageURI);
+            setImageUrl(ipfsImageUrl);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  } else if (data.mediaUrl) {
     fetch(data.mediaUrl)
       .then((response) => {
         if (!response.ok) {
@@ -17,6 +48,7 @@ export default function AssetDisplayComponent({ data }: { data: IPAsset }) {
         if (contentType?.startsWith('image/')) {
           return true;
         }
+
         return response.json(); // Parse the JSON response
       })
       .then((d) => {

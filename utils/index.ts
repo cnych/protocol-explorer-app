@@ -114,3 +114,14 @@ export function getZodTypeName(type: z.ZodType<any, any>): string {
   // Add other Zod types as needed
   return '';
 }
+
+export function parseIPFSHash(ipfsHash: string): string {
+  if (ipfsHash.startsWith('ipfs://')) {
+    return ipfsHash.slice(7);
+  }
+  return ipfsHash;
+}
+
+export function parseIPFSGatewayURL(ipfsHash: string): string {
+  return `https://ipfs.io/ipfs/${parseIPFSHash(ipfsHash)}`;
+}
