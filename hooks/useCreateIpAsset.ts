@@ -41,7 +41,8 @@ export default function useCreateIpAsset(createReq?: ModifiedCreateIPAssetReques
           typeIndex:
             typeof _createReq!.typeIndex === 'string' ? parseInt(_createReq!.typeIndex) : _createReq!.typeIndex,
         };
-
+				
+				console.log("Create req: ", formattedReq)
         const createRes: CreateIpAssetResponse = await (client as Client).ipAsset.create(formattedReq);
         setIsIdle(false);
         setData(createRes?.ipAssetId);

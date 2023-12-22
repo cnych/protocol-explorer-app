@@ -40,6 +40,7 @@ export default function CreateLicenseNftWriteAccordion({
       Source: 2,
     }),
     attribution: z.boolean(),
+    derivativesAllowed: z.boolean(),
     ipaId: z.string().optional(),
   });
 
@@ -50,7 +51,8 @@ export default function CreateLicenseNftWriteAccordion({
       'The framework ID of the license. Only SPUML-1.0 is currently supported (https://github.com/storyprotocol/protocol-contracts/blob/main/SPUML-v1.pdf)',
     licensor:
       'Specify the licensor configuration type. `IpOrgOwnerAlways` will set the licensor as the IP Org. `Source` will inherit the license from its appropriate source (parent license, linked license, or inherit from IP Org).',
-    attribution: 'To specify if the license requires the licensee to credit the original IP',
+    attribution: 'To specify if the license requires the licensee to credit the original source of the IP Asset',
+    derivativesAllowed: 'To specify if the license can allow for derivatives to be created from the IP Asset',
   };
 
   return (

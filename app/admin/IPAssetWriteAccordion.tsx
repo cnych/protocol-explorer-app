@@ -18,7 +18,9 @@ export default function IPAssetWriteAccordion({ defaultValues }: { defaultValues
     }),
     mediaUrl: z.string().min(1, {
       message: 'Required.',
-    }),
+    }),		
+    licenseId: z.string().optional(),
+
   });
 
   const descriptions = {
@@ -27,10 +29,11 @@ export default function IPAssetWriteAccordion({ defaultValues }: { defaultValues
       'The enum number that corresponds to the type of IP Asset within that IP Org, use relationshipType.list() to find the enum number.',
     name: 'The name of the IP Asset',
     mediaUrl: 'The URL of the metadata that contains the IP Asset information',
+    licenseId: 'The license ID that this IP Asset is bound to. If left empty or set to "0" if not applicable.',
   };
 
   return (
-    <div className="flex flex-col gap-2">
+	<div className="flex flex-col gap-2">
       <h1 className="font-semibold text-2xl">IP Asset</h1>
       <WriteAccordionInputForm
         fcnName={'ipAsset.create'}

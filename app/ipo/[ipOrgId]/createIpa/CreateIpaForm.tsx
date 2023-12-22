@@ -22,6 +22,7 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Required',
   }),
+	licenseId: z.string().optional(),
   description: z.string().optional(),
   // mediaUrl: z.string().optional(),
   contentFile: z.any(),
@@ -56,7 +57,7 @@ export function CreateIpaForm({ ipOrgId }: CreateIpaFormProps) {
           name: form.watch('name'),
           typeIndex: 0,
           ipOrgId: ipOrgId,
-          licenseId: 0,
+          licenseId: form.watch('licenseId') ? parseInt(form.watch('licenseId')!) : 0,
           mediaUrl: uri,
           txOptions: {
             waitForTransaction: true,

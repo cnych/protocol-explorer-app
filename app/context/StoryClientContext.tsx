@@ -3,7 +3,7 @@
 import React, { createContext, useContext } from 'react';
 import { Client, ReadOnlyClient, StoryClient, StoryConfig, StoryReadOnlyConfig } from '@story-protocol/core-sdk';
 import { http } from 'viem';
-import { mainnet, sepolia, useWalletClient } from 'wagmi';
+import { mainnet, useWalletClient } from 'wagmi';
 
 interface StoryClientContextType {
   client: ReadOnlyClient | Client;

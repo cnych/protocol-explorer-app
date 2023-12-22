@@ -116,33 +116,34 @@ const BooleanDropdown: React.FC<BooleanDropdownProps> = ({ field }) => {
   useEffect(() => {
     // Ensure the initial field value is undefined
     if (!hasSelection && field.value !== undefined) {
-      field.onChange(undefined);
+      field.onChange("");
     }
   }, [hasSelection, field]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value === 'true';
-    field.onChange(selectedValue);
-    setHasSelection(true);
+    if (event.target.value === "unset") {
+      field.onChange(undefined); // Set field to undefined when "Unset" is selected
+      setHasSelection(false);
+    } else {
+      const selectedValue = event.target.value === 'true';
+      field.onChange(selectedValue);
+      setHasSelection(true);
+    }
   };
 
   return (
     <div className="relative border-2 rounded-xl">
       <select
         {...field}
-        value={field.value === undefined ? '' : field.value.toString()} // Set initial value as empty string
+        value={field.value === undefined ? 'unset' : field.value.toString()} // Set initial value as 'unset' if undefined
         onChange={handleSelectChange}
         className="block appearance-none w-full px-4 py-2 pr-8 rounded-xl bg-transparent focus:outline-none"
       >
-        {!hasSelection && <option value="">Select...</option>}
+        <option value="unset">Unset</option>
         <option value="true">True</option>
         <option value="false">False</option>
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
-        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <path d="M5.293 9.293a1 1 0 0 1 1.414 0L10 12.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z" />
-        </svg>
-      </div>
+      {/* ... rest of the component */}
     </div>
   );
 };
@@ -243,6 +244,13 @@ export default function ConfigureLicenseWriteAccordionInputForm({
         value: {
           interface: 'bool',
           data: [form.getValues().attribution],
+        },
+      },
+      {
+        tag: 'Derivatives-Allowed',
+        value: {
+          interface: 'bool',
+          data: [form.getValues().derivativesAllowed],
         },
       },
     ],

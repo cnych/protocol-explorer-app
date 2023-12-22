@@ -1,7 +1,7 @@
 import { StoryClient, StoryConfig } from '@story-protocol/core-sdk';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Hex, http } from 'viem';
-import { mainnet, sepolia } from 'wagmi';
+import { mainnet } from 'wagmi';
 
 const config: StoryConfig = {
   // chain: process.env.NODE_ENV === 'production' ? mainnet : sepolia,

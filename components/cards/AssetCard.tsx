@@ -10,6 +10,7 @@ import { getRoundedTime } from '@/utils';
 export default function AssetCard({ data }: { data: IPAsset }) {
   const [imageUrl, setImageUrl] = React.useState<string | null>(null);
 
+	console.log("Asset card data:", data)
   if (data.mediaUrl) {
     fetch(data.mediaUrl)
       .then((response) => {
